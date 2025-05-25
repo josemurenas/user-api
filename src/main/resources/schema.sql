@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS app_user (
+    id UUID PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+    modified TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+    last_login TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
+    token VARCHAR(512) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS phone (
+    id UUID PRIMARY KEY,
+    number VARCHAR(7) NOT NULL,
+    city_code VARCHAR(1) NOT NULL,
+    country_code VARCHAR(2) NOT NULL,
+    user_id UUID NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES app_user(id)
+);

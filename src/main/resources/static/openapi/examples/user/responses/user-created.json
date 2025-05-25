@@ -1,0 +1,18 @@
+{
+  "id": "286a6b50-d391-4db7-825c-10338d88d51e",
+  "name": "dummyName",
+  "email": "dummy@email.com",
+  "password": "abcd#1234",
+  "phones": [
+    {
+      "number": "1234567",
+      "countryCode": "1",
+      "code": "12"
+    }
+  ],
+  "created": "2025-05-22T22:54:19",
+  "modified": "2025-05-22T22:54:19",
+  "lastLogin": "2025-05-22T22:54:19",
+  "isActive": true,
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkIiwiaWF0IjoxNzQ4MTU3MzkwLCJleHAiOjE3NDgxNjA5OTB9.wqOBM_E5JHPltx1rBchuQs1xbxO6q6EevMD2GqtioYo"
+}
