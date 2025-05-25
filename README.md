@@ -2,14 +2,14 @@
 
 ## Table Contents
 
-### 1. [Project Description](#Project-description)
-### 2. [Technologies used](#Technologies-used) 
-### 3. [Requisites](#Requisites)
-### 4. [How to run](#How-to-run)
-### 5. [How to use](#How-to-use)
-### 6. [Database definition and access](#Database-definition-and-access)
-### 7. [Configurations](#Configurations)
-### 8. [Solution diagram](#Solution-diagram)
+### 1. [Project Description](#1-Project-description-1)
+### 2. [Technologies used](#2-Technologies-used-1) 
+### 3. [Requisites](#3-Requisites-1)
+### 4. [How to run](#4-How-to-run-1)
+### 5. [How to use](#5-How-to-use-1)
+### 6. [Database definition and access](#6-Database-definition-and-access-1)
+### 7. [Configurations](#7-Configurations-1)
+### 8. [Solution diagram](#8-solution-diagram-1)
 
 ## 1. Project Description
 Service exposing a REST endpoint to create new users and persist them in a database.
