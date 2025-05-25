@@ -23,6 +23,8 @@ Note: There is also an endpoint to get the users created in order to validate th
 - Spring data
 - H2 Database
 - Maven
+- JUnit
+- Mockito
 - Swagger / Spring doc 2.2.0
 - Lombok
 - Maven 3.9.5
