@@ -2,19 +2,19 @@
 
 ## Table Contents
 
-### 1. [Project Description](#Project-description)
-### 2. [Technologies used](#Technologies-used) 
-### 3. [Requisites](#Requisites)
-### 4. [How to run](#How-to-run)
-### 5. [How to use](#How-to-use)
-### 6. [Database definition and access](#Database-definition-and-access)
-### 7. [Configurations](#Configurations)
-### 8. [Solution diagram](#Solution-diagram)
+### 1. [Project Description](#1-Project-description-1)
+### 2. [Technologies used](#2-Technologies-used-1) 
+### 3. [Requisites](#3-Requisites-1)
+### 4. [How to run](#4-How-to-run-1)
+### 5. [How to use](#5-How-to-use-1)
+### 6. [Database definition and access](#6-Database-definition-and-access-1)
+### 7. [Configurations](#7-Configurations-1)
+### 8. [Solution diagram](#8-solution-diagram-1)
 
 ## 1. Project Description
-Service exposing a REST endpoint to create new users and persist them in a database.
+This service exposing a REST endpoint to create new users and persist them in a database.
 
-There is also an endpoint to get the users created in order to validate the data check **How to use** section.
+Note: There is also an endpoint to get the users created in order to validate the data, check **How to use** section.
 
 ## 2. Technologies used
 - Java 21
@@ -42,7 +42,7 @@ Execute `mvn spring-boot:run`
 
 ## 5. How to use
 
-Bellow you can see a valid request and response, but also after running the project we can check the swagger documentation using this [link](http://localhost:8080/swagger-ui/index.htm)
+Bellow you can see a `curl` with valid request and response, but also after running the project we can check the swagger documentation using this [link](http://localhost:8080/swagger-ui/index.htm)
 
 ### Create user - valid request
 
@@ -87,8 +87,7 @@ curl --location --request POST 'http://localhost:8080/user-api/v1/users' \
  }
 ```
 
-If you want to check the users you created you can use this:
-
+In case we have to check the users we created, we can use curl bellow:
 
 ### Get users - request
 
@@ -141,7 +140,7 @@ curl --location --request GET 'http://localhost:8080/user-api/v1/users'
 
 To consult the database after running the project you can check this [link](http://localhost:8080/h2-console)
 
-To login user the username and password from properties `spring.datasource.username` and `spring.datasource.password` and bellow you can see the initial definition of the tables, but also you can modify it in src/main/resources/schemma.sql
+To login user the username and password are on the application.yml file, properties: `spring.datasource.username` and `spring.datasource.password` and bellow you can see the initial definition of the tables, but also you can modify it in src/main/resources/schemma.sql
 
 ```declarative
 CREATE TABLE IF NOT EXISTS app_user (
@@ -167,6 +166,8 @@ CREATE TABLE IF NOT EXISTS phone (
 ```
 ## 7. ⚙️ Configurations
 
+Here are the properties used in this project
+
 | Property                                    | Description                                         | Example                                       |
 |---------------------------------------------|-----------------------------------------------------|-----------------------------------------------|
 | `spring.application.password-regex`         | Regex pattern for validating passwords.             | `must include letters, numbers`               |
@@ -182,4 +183,6 @@ CREATE TABLE IF NOT EXISTS phone (
 
 ## 8. Solution diagram
 
-![Descripción de la imagen](docs/Sequence Diagram.png)
+This diagram shows the different layers the request thought to get the response and return it to the client
+
+![Descripción de la imagen](docs/sequence-diagram.png)
