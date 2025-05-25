@@ -16,7 +16,7 @@ Service exposing a REST endpoint to create new users and persist them in a datab
 
 There is also an endpoint to get the users created in order to validate the data check **How to use** section.
 
-2. ## 2. Technologies used
+## 2. Technologies used
 - Java 21
 - Spring boot 3.4.5
 - Spring web
