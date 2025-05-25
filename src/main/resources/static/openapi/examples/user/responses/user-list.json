@@ -1,0 +1,38 @@
+[
+  {
+    "id": "286a6b50-d391-4db7-825c-10338d88d51e",
+    "name": "user1",
+    "email": "user1@email.com",
+    "password": "abcd#1234",
+    "phones": [
+      {
+        "number": "1234567",
+        "countryCode": "1",
+        "code": "12"
+      }
+    ],
+    "created": "2025-05-22T22:54:19",
+    "modified": "2025-05-22T22:54:19",
+    "lastLogin": "2025-05-22T22:54:19",
+    "isActive": true,
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkIiwiaWF0IjoxNzQ4MTU3MzkwLCJleHAiOjE3NDgxNjA5OTB9.wqOBM_E5JHPltx1rBchuQs1xbxO6q6EevMD2GqtioYo"
+  },
+  {
+    "id": "7cf13ce7-8697-4270-bfd5-00c8762ebfff",
+    "name": "user2",
+    "email": "user2@email.com",
+    "password": "abcd#1234",
+    "phones": [
+      {
+        "number": "7654321",
+        "countryCode": "1",
+        "code": "21"
+      }
+    ],
+    "created": "2025-05-23T22:54:19",
+    "modified": "2025-05-23T22:54:19",
+    "lastLogin": "2025-05-23T22:54:19",
+    "isActive": true,
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkIiwiaWF0IjoxNzQ4MTU3MzkwLCJleHAiOjE3NDgxNjA5OTB9.wqOBM_E5JHPltx1rBchuQs1xbxO6q6EevMD2GqtioYo"
+  }
+]

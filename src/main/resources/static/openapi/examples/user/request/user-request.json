@@ -1,0 +1,12 @@
+{
+  "name": "test",
+  "email": "asfdf@test.com",
+  "password": "asFsd#55678",
+  "phones": [
+    {
+      "number": "1234567",
+      "countryCode": "12",
+      "cityCode": "1"
+    }
+  ]
+}
