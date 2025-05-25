@@ -24,13 +24,13 @@ public class UserService {
         final var token = jwtGenerator.generateToken(user.getName());
         user.setToken(token);
         user = userRepository.save(user);
-        return userMapper.map(user);
+        return userMapper.toDto(user);
     }
 
     public List<UserDto> getUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(userMapper::map)
+                .map(userMapper::toDto)
                 .toList();
     }
 
