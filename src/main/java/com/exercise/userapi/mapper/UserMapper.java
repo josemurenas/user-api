@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 @Accessors(fluent = false)
 public interface UserMapper {
 
-    UserDto map(User user);
+    UserDto toDto(User user);
 
     User toEntity(UserDto user);
 
