@@ -1,6 +1,8 @@
 package com.exercise.userapi.model;
 
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 
 @Builder

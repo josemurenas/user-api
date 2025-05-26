@@ -1,10 +1,12 @@
 package com.exercise.userapi.controller;
 
 import com.exercise.userapi.api.UserApi;
+import com.exercise.userapi.exception.UserNotFoundException;
 import com.exercise.userapi.model.PhoneDto;
 import com.exercise.userapi.model.UserDto;
 import com.exercise.userapi.repository.UserRepository;
 import com.exercise.userapi.service.UserService;
+import com.exercise.userapi.validator.constraintvalidation.UniqueEmailValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -23,8 +25,9 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,6 +45,11 @@ class UserControllerIT {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private UniqueEmailValidator emailValidator;
+    
+    private static final String MESSAGE_ROOT = "$.message";
 
     @Test
     @SneakyThrows
@@ -87,7 +95,7 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("name must not be blank")
+                        jsonPath(MESSAGE_ROOT).value("name must not be blank")
                 );
     }
 
@@ -95,8 +103,7 @@ class UserControllerIT {
     @SneakyThrows
     void givenNotUniqueEmail_whenCreateUser_thenBadRequest() {
         //Given
-        final var userDtoInput = getValidUserDtoInputBuilder().build();
-        final var userDtoOutput = getValidUserDtoOutput();
+        final var userDtoInput = getValidUserDtoInput();
         when(userRepository.existsByEmail(anyString())).thenReturn(true);
         final var content = objectMapper.writeValueAsString(userDtoInput);
 
@@ -106,7 +113,7 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("email is already registered")
+                        jsonPath(MESSAGE_ROOT).value("email is already registered")
                 );
     }
 
@@ -126,7 +133,7 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("email must be a well-formed email address")
+                        jsonPath(MESSAGE_ROOT).value("email must be a well-formed email address")
                 );
     }
 
@@ -147,7 +154,7 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("email must not be blank")
+                        jsonPath(MESSAGE_ROOT).value("email must not be blank")
                 );
     }
 
@@ -168,7 +175,7 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("password must not be blank")
+                        jsonPath(MESSAGE_ROOT).value("password must not be blank")
                 );
     }
 
@@ -188,12 +195,9 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("password should have at least 8 characters, including letters, numbers and a special character.")
+                        jsonPath(MESSAGE_ROOT).value("password should have at least 8 characters, including letters, numbers and a special character.")
                 );
     }
-
-
-
 
     @Test
     @SneakyThrows
@@ -212,11 +216,125 @@ class UserControllerIT {
                         .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(
-                        jsonPath("$.message").value("phones[0].cityCode must not be null")
+                        jsonPath(MESSAGE_ROOT).value("phones[0].cityCode must not be null")
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void givenNonExistentId_whenDeleteUser_thenReturnNotContent() {
+        //When //Then
+        mockMvc.perform(delete(UserApi.USER_URL + "/{id}", UUID.randomUUID().toString()))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @SneakyThrows
+    void givenNonExistentId_whenDeleteUser_thenReturnNotFound() {
+        //Given
+        final var id = UUID.randomUUID();
+        doThrow(new UserNotFoundException(id))
+                .when(userService).deleteUser(any(UUID.class));
+
+        //When //Then
+        mockMvc.perform(delete(UserApi.USER_URL + "/{id}", id))
+                .andExpect(status().isNotFound())
+                .andExpect(
+                        jsonPath(MESSAGE_ROOT).value(String.format("User with id: %s  - not found", id))
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void givenExistingId_whenFindUser_thenReturnUser() {
+        //Given
+        final var id = UUID.randomUUID();
+        final var userDtoOutput = getValidUserDtoOutput(id);
+        when(userService.getUser(any(UUID.class))).thenReturn(userDtoOutput);
+
+        //When //Then
+        mockMvc.perform(get(UserApi.USER_URL + "/{id}", id))
+                .andExpect(status().isOk())
+                .andExpectAll(
+                        jsonPath("$.id").value(userDtoOutput.id().toString()),
+                        jsonPath("$.name").value(userDtoOutput.name()),
+                        jsonPath("$.email").value(userDtoOutput.email()),
+                        jsonPath("$.password").value(userDtoOutput.password()),
+                        jsonPath("$.token").value(userDtoOutput.token().toString()),
+                        jsonPath("$.created").isNotEmpty(),
+                        jsonPath("$.modified").isNotEmpty(),
+                        jsonPath("$.lastLogin").isNotEmpty()
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void givenNonExistentId_whenFindUser_thenReturnNotFound() {
+        //Given
+        final var id = UUID.randomUUID();
+        doThrow(new UserNotFoundException(id))
+                .when(userService).getUser(any(UUID.class));
+
+        //When //Then
+        mockMvc.perform(get(UserApi.USER_URL + "/{id}", id))
+                .andExpect(status().isNotFound())
+                .andExpect(
+                        jsonPath(MESSAGE_ROOT).value(String.format("User with id: %s  - not found", id))
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void givenExistingId_whenUpdateUser_thenReturnUser() {
+        //Given
+        final var id = UUID.randomUUID();
+        final var userDtoInput = getValidUserDtoInput();
+        final var userDtoOutput = getValidUserDtoOutput(id);
+        final var content = objectMapper.writeValueAsString(userDtoInput);
+        when(userService.updateUser(any(UUID.class), any(UserDto.class))).thenReturn(userDtoOutput);
+
+        //When //Then
+        mockMvc.perform(put(UserApi.USER_URL + "/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
+                .andExpect(status().isOk())
+                .andExpectAll(
+                        jsonPath("$.id").value(userDtoOutput.id().toString()),
+                        jsonPath("$.name").value(userDtoOutput.name()),
+                        jsonPath("$.email").value(userDtoOutput.email()),
+                        jsonPath("$.password").value(userDtoOutput.password()),
+                        jsonPath("$.token").value(userDtoOutput.token().toString()),
+                        jsonPath("$.created").isNotEmpty(),
+                        jsonPath("$.modified").isNotEmpty(),
+                        jsonPath("$.lastLogin").isNotEmpty()
+                );
+    }
+
+    @Test
+    @SneakyThrows
+    void givenNonExistentId_whenUpdateUser_thenReturnNotFound() {
+        //Given
+        final var id = UUID.randomUUID();
+        final var userDtoInput = getValidUserDtoInput();
+        final var content = objectMapper.writeValueAsString(userDtoInput);
+        doThrow(new UserNotFoundException(id))
+                .when(userService).updateUser(any(UUID.class), any(UserDto.class));
+
+        //When //Then
+        mockMvc.perform(put(UserApi.USER_URL + "/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
+                .andExpect(status().isNotFound())
+                .andExpect(
+                        jsonPath(MESSAGE_ROOT).value(String.format("User with id: %s  - not found", id))
                 );
     }
 
     private static UserDto getValidUserDtoOutput() {
+        return getValidUserDtoOutput(UUID.randomUUID());
+    }
+
+    private static UserDto getValidUserDtoOutput(UUID id) {
         final var currentTime = LocalDateTime.now();
         return getValidUserDtoInputBuilder()
                 .id(UUID.randomUUID())
@@ -228,7 +346,7 @@ class UserControllerIT {
     }
 
     private static UserDto getValidUserDtoInput() {
-      return getValidUserDtoInputBuilder().build();
+        return getValidUserDtoInputBuilder().build();
     }
 
     private static UserDto.UserDtoBuilder getValidUserDtoInputBuilder() {

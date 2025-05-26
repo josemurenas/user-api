@@ -1,0 +1,21 @@
+@startuml
+
+actor User as U
+participant "UserController" as UC
+participant "UserService" as US
+participant "UserMapper" as UM
+participant "UserRepository" as UR
+participant "Database" as DB
+
+U -> UC : Sending request
+UC -> US : getUser()
+US -> UR : findById()
+UR -> DB : Getting data from database
+DB -> UR : Returning user
+UR --> US : Returning User
+US -> UM : toDto() mapping user to userDto
+UM --> US : Returning userDto
+US --> UC : Returning userDto
+US --> U : Returning userDto
+
+@enduml

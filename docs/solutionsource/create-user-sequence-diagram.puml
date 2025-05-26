@@ -11,7 +11,7 @@ participant "Database" as DB
 U -> UC : Sending request
 UC -> UC : Validating request
 UC -> US : createUser()
-US -> UM : map() - Mapping UserDto to User
+US -> UM : toEntity() - Mapping UserDto to User
 UM --> US : Returning User
 US -> JG : Generating token
 JG --> US : Returning token
@@ -19,7 +19,7 @@ US -> US: Setting token to the user
 US -> UR : saveUser()
 US -> DB : Storing User
 DB --> US: Returning User with ID
-US -> UM : map() - Mapping User to UserDto
+US -> UM : toDto() - Mapping User to UserDto
 UM --> US: Returning UserDto
 US --> UC : Returning UserDto
 UC --> U : Returning response
