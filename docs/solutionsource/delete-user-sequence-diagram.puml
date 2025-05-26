@@ -1,0 +1,18 @@
+@startuml
+
+actor User as U
+participant "UserController" as UC
+participant "UserService" as US
+participant "UserRepository" as UR
+participant "Database" as DB
+
+U -> UC : Sending request
+UC -> US : deleteUser()
+US -> US : verify if exist by id
+US -> UR : deleteById
+UR -> DB : Deleting data
+DB --> US : (not return content)
+US --> UC : (not return content)
+UC --> U : (not return content
+
+@enduml
