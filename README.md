@@ -9,7 +9,7 @@
 ### 5. [How to use](#5-How-to-use-1)
 ### 6. [Database definition and access](#6-Database-definition-and-access-1)
 ### 7. [Configurations](#7-Configurations-1)
-### 8. [Solution diagram](#8-solution-diagram-1)
+### 8. [Solution diagrams](#8-solution-diagrams-1)
 
 ## 1. Project Description
 This service exposing a REST endpoint to create new users and persist them in a database.
@@ -42,99 +42,16 @@ Execute `mvn spring-boot:run`
 
 ## 5. How to use
 
+We have a 5 functions that you could use
+
+Create User
+Delete User
+Get User
+Get Users
+Update User
+
 Bellow you can see a `curl` with valid request and response, but also after running the project we can check the swagger documentation using this [link](http://localhost:8080/swagger-ui/index.htm)
 
-### Create user - valid request
-
-```declarative
-curl --location --request POST 'http://localhost:8080/user-api/v1/users' \
---header 'Content-Type: application/json' \
---data-raw 
-'{
-    "name": "dummName",
-    "email": "dummy@email.com",
-    "password": "abcd#1234",
-    "phones": [
-        {
-            "number": "1234567",
-            "cityCode":"1",
-            "countryCode": "12"
-        }
-    ]
-}'
-```
-
-### Create user - response
-
-```declarative
-{
-    "id": "3314e4b2-a494-404f-83a8-81507f58cc19",
-    "name": "dummyName",
-    "email": "dummy@email.com",
-    "password": "abcd#1234",
-    "phones": [
-        {
-            "number": "1234567",
-            "cityCode": "1",
-            "countryCode": "12"
-        }
-    ],
-    "created": "2025-05-25T01:16:16",
-    "modified": "2025-05-25T01:16:16",
-    "lastLogin": "2025-05-25T01:16:16",
-    "isActive": false,
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teU5hbWUiLCJpYXQiOjE3NDgxNTAxNzUsImV4cCI6MTc0ODE1Mzc3NX0.YnNiamuZc4AU0ag96mHSbSzP-iOlFR5fpvKD-WsOTDc"
- }
-```
-
-In case we have to check the users we created, we can use curl bellow:
-
-### Get users - request
-
-```declarative
-curl --location --request GET 'http://localhost:8080/user-api/v1/users' 
-```
-### Get users - response
-
-```declarative
-[
-  {
-    "id": "286a6b50-d391-4db7-825c-10338d88d51e",
-    "name": "user1",
-    "email": "user1@email.com",
-    "password": "abcd#1234",
-    "phones": [
-      {
-        "number": "1234567",
-        "countryCode": "1",
-        "code": "12"
-      }
-    ],
-    "created": "2025-05-22T22:54:19",
-    "modified": "2025-05-22T22:54:19",
-    "lastLogin": "2025-05-22T22:54:19",
-    "isActive": true,
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkIiwiaWF0IjoxNzQ4MTU3MzkwLCJleHAiOjE3NDgxNjA5OTB9.wqOBM_E5JHPltx1rBchuQs1xbxO6q6EevMD2GqtioYo"
-  },
-  {
-    "id": "7cf13ce7-8697-4270-bfd5-00c8762ebfff",
-    "name": "user2",
-    "email": "user2@email.com",
-    "password": "abcd#1234",
-    "phones": [
-      {
-        "number": "7654321",
-        "countryCode": "1",
-        "code": "21"
-      }
-    ],
-    "created": "2025-05-23T22:54:19",
-    "modified": "2025-05-23T22:54:19",
-    "lastLogin": "2025-05-23T22:54:19",
-    "isActive": true,
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkIiwiaWF0IjoxNzQ4MTU3MzkwLCJleHAiOjE3NDgxNjA5OTB9.wqOBM_E5JHPltx1rBchuQs1xbxO6q6EevMD2GqtioYo"
-  }
-]
 ```
 ## 6. Database definition and access
 
@@ -181,8 +98,21 @@ Here are the properties used in this project
 | `spring.jpa.hibernate.ddl-auto`             | Controls how Hibernate handles the database schema at startup| `none, validate, update, create, create-drop` |
 
 
-## 8. Solution diagram
+## 8. Solution diagrams
 
-This diagram shows the different layers the request thought to get the response and return it to the client
+These diagrams show the different layers the requests thought to get the response and return it to the client
 
-![Descripción de la imagen](docs/sequence-diagram.png)
+### Create user sequence Diagram
+![Descripción de la imagen](docs/diagrams/create-user-sequence-diagram.png)
+
+### Get user sequence Diagram
+![Descripción de la imagen](docs/diagrams/get-user-sequence-diagram.png)
+
+### Get users sequence Diagram
+![Descripción de la imagen](docs/diagrams/get-users-sequence-diagram.png)
+
+### Update user sequence Diagram
+![Descripción de la imagen](docs/diagrams/update-user-sequence-diagram.png)
+
+### Delete user sequence Diagram
+![Descripción de la imagen](docs/diagrams/delete-user-sequence-diagram.png)

@@ -2,14 +2,17 @@ package com.exercise.userapi.model;
 
 import com.exercise.userapi.validator.constraint.Password;
 import com.exercise.userapi.validator.constraint.UniqueEmail;
+import com.exercise.userapi.validator.group.OnCreate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.groups.Default;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Builder
@@ -18,11 +21,11 @@ public record UserDto(
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         UUID id,
 
-@NotBlank
+        @NotBlank
         String name,
 
         @Email
-        @UniqueEmail
+        @UniqueEmail(groups = {OnCreate.class})
         @NotBlank
         String email,
 

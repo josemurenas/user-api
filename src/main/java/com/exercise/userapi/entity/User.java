@@ -9,7 +9,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Builder
+@Builder( toBuilder = true)
 @Table(name = "app_user")
 @Entity
 @AllArgsConstructor

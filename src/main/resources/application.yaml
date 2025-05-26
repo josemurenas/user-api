@@ -11,7 +11,6 @@ spring:
       enabled: true
       path: /h2-console
 
-
   datasource:
     url: jdbc:h2:~/userapi;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1
     username: sa

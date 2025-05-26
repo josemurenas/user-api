@@ -5,10 +5,15 @@ import com.exercise.userapi.entity.Phone;
 import com.exercise.userapi.model.PhoneDto;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+import java.util.Set;
+
 @Mapper(componentModel = "spring", config = MapstructConfig.class)
 public interface PhoneMapper {
 
-    PhoneDto map(Phone phone);
+    PhoneDto toEntity(Phone phone);
 
-    Phone map(PhoneDto phoneDto);
+    Phone toEntity(PhoneDto phoneDto);
+
+    Set<Phone> toEntityList(List<PhoneDto> phones);
 }
